@@ -747,7 +747,7 @@ IF( HAPI_EXAMPLE_PROJECTS )
   # The version of the next line avoids: 'Policy CMP0013 is not set: Duplicate binary directories are not allowed.'
   STRING( REGEX REPLACE "HAPI(/build)?" "HAPI/examples/build" HAPI_EXAMPLES_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} )
   ADD_SUBDIRECTORY( ${HAPI_SOURCE_DIR}/../examples/build
-                    ${HAPI_EXAMPLES_BINARY_DIR} )
+                    examples )
 
   IF( TARGET DirectXExample)
     ADD_DEPENDENCIES( DirectXExample HAPI )
