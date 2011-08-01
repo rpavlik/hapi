@@ -40,11 +40,11 @@ namespace HAPI {
   public:
     /// Constructor.
     HapticLineSet( const vector< Collision::LineSegment > &_lines,
-                   HAPISurfaceObject *_surface, 
-                   Collision::FaceType _touchable_face = 
+                   HAPISurfaceObject *_surface,
+                   Collision::FaceType _touchable_face =
                    Collision::FRONT_AND_BACK,
                    void *_userdata = NULL,
-                   int _shape_id = -1, 
+                   int _shape_id = -1,
                    void (*_clean_up_func)( void * ) = 0  ):
       HAPIHapticShape( _surface, _touchable_face, _userdata,
                        _shape_id, _clean_up_func ),
@@ -53,11 +53,11 @@ namespace HAPI {
     /// Constructor.
     HapticLineSet( const Matrix4 &_transform,
                    const vector< Collision::LineSegment > &_lines,
-                   HAPISurfaceObject *_surface, 
-                   Collision::FaceType _touchable_face = 
+                   HAPISurfaceObject *_surface,
+                   Collision::FaceType _touchable_face =
                    Collision::FRONT_AND_BACK,
                    void *_userdata = NULL,
-                   int _shape_id = -1, 
+                   int _shape_id = -1,
                    void (*_clean_up_func)( void * ) = 0  ):
       HAPIHapticShape( _transform, _surface, _touchable_face, _userdata,
                        _shape_id, _clean_up_func ),
@@ -70,10 +70,10 @@ namespace HAPI {
                    HAPISurfaceObject *_surface,
                    void (*_clean_up_func) = 0,
                    int _shape_id = -1,
-                   Collision::FaceType _touchable_face = 
+                   Collision::FaceType _touchable_face =
                    Collision::FRONT_AND_BACK ):
-      HAPIHapticShape( _userdata, _surface, _clean_up_func,
-                       _shape_id, _touchable_face ),
+      HAPIHapticShape( _surface, _touchable_face, _userdata,
+                       _shape_id, _clean_up_func ),
       lines( begin, end ) {}
 
     inline virtual int nrLines() {
@@ -84,16 +84,16 @@ namespace HAPI {
     /// Detect collision between a line segment and the object.
     /// \param from The start of the line segment(in local coords).
     /// \param to The end of the line segment(in local coords).
-    /// \param result Contains info about closest intersection, if 
+    /// \param result Contains info about closest intersection, if
     /// line intersects object(in local coords).
     /// \param face The sides of the object that can be intersected. E.g.
     /// if FRONT, intersections will be reported only if they occur from
-    /// the front side, i.e. the side in which the normal points. 
+    /// the front side, i.e. the side in which the normal points.
     /// \returns true if intersected, false otherwise.
-    virtual bool lineIntersectShape( const Vec3 &from, 
+    virtual bool lineIntersectShape( const Vec3 &from,
                                      const Vec3 &to,
                                      Collision::IntersectionInfo &result,
-                                     Collision::FaceType face = 
+                                     Collision::FaceType face =
                                      Collision::FRONT_AND_BACK  );
 
     /// Get constraint planes of the shape. A proxy of a haptics renderer
