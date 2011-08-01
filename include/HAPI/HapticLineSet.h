@@ -68,7 +68,7 @@ namespace HAPI {
                    Iterator end,
                    void *_userdata,
                    HAPISurfaceObject *_surface,
-                   void (*_clean_up_func) = 0,
+                   void (*_clean_up_func)( void * ) = 0,
                    int _shape_id = -1,
                    Collision::FaceType _touchable_face =
                    Collision::FRONT_AND_BACK ):

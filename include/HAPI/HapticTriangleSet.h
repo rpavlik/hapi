@@ -131,7 +131,7 @@ namespace HAPI {
     template< class Iterator >
     HapticTriangleSet( const Vec3 &_velocity,
                        const Rotation &_angular_velocity,
-                       HAPIFloat _growth_rate,
+                       const Vec3 & _growth_rate,
                        Iterator begin,
                        Iterator end,
                        HAPISurfaceObject *_surface, 
@@ -139,11 +139,11 @@ namespace HAPI {
                        Collision::FaceType _touchable_face = 
                        Collision::FRONT_AND_BACK,
                        void *_userdata = NULL,
-                       int _shape_id = -1, 
-                       void (*_clean_up_func)( void * ) = 0 ): 
-      HAPIHapticShape( _velocity, _angular_velocity, 
-                       _growth_rate,_surface, _touchable_face, _userdata,
-                       _shape_id, _clean_up_func ),
+                       int _shape_id = -1,
+                       void (*_clean_up_func)( void * ) = 0 ):
+      HAPIHapticShape( _velocity, _angular_velocity,
+                       _growth_rate, _surface, _touchable_face,
+                       _userdata, _shape_id, _clean_up_func ),
       triangles( begin, end ),
       convex( _convex ) {}
 
