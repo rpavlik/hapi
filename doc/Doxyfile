@@ -134,8 +134,8 @@ STRIP_FROM_PATH        = "C:/Documents and Settings/Administrator/         "
 # are normally passed to the compiler using the -I flag.
 
 STRIP_FROM_INC_PATH    = ../include \
-                         ../Chai3DRenderer\include \
-                         ../OpenHapticsRenderer\include
+                         ../Chai3DRenderer/include \
+                         ../OpenHapticsRenderer/include
 
 # If the SHORT_NAMES tag is set to YES, doxygen will generate much shorter 
 # (but less readable) file names. This can be useful is your file systems 
@@ -587,11 +587,11 @@ WARN_LOGFILE           =
 # with spaces.
 
 INPUT                  = ../src \
-                         ../include\HAPI \
-                         ../OpenHapticsRenderer\include\HAPI \
-                         ../Chai3DRenderer\include\HAPI \
-                         ../Chai3DRenderer\src \
-                         ../OpenHapticsRenderer\src
+                         ../include/HAPI \
+                         ../OpenHapticsRenderer/include/HAPI \
+                         ../Chai3DRenderer/include/HAPI \
+                         ../Chai3DRenderer/src \
+                         ../OpenHapticsRenderer/src
 
 # This tag can be used to specify the character encoding of the source files 
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding, which is 
@@ -1290,8 +1290,8 @@ SEARCH_INCLUDES        = YES
 
 INCLUDE_PATH           = ../../H3DUtil/include \
                          ../include \
-                         ../OpenHapticsRenderer\include \
-                         ../Chai3DRenderer\include
+                         ../OpenHapticsRenderer/include \
+                         ../Chai3DRenderer/include
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard 
 # patterns (like *.h and *.hpp) to filter out the header-files in the 
