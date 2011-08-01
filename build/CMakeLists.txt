@@ -12,8 +12,17 @@ ENDIF(WIN32)
 SET(CMAKE_FIND_FRAMEWORK "LAST")
 PROJECT (HAPI)
 
+IF( NOT H3DUTIL_SOURCE_DIR )
+  SET( H3DUTIL_SOURCE_DIR "${HAPI_SOURCE_DIR}/../../H3DUtil" )
+ENDIF( NOT H3DUTIL_SOURCE_DIR )
+
+IF( NOT EXISTS "${H3DUTIL_SOURCE_DIR}/build/CMakeLists.txt" )
+  SET( H3DUTIL_SOURCE_DIR "${H3DUTIL_SOURCE_DIR}" CACHE PATH "H3DUtil source directory - should contain build/CMakeLists.txt file")
+  MESSAGE( FATAL_ERROR "Cannot find H3DUtil/build/CMakeLists.txt - please set H3DUTIL_SOURCE_DIR to the H3DUtil directory!" )
+ENDIF( NOT EXISTS "${H3DUTIL_SOURCE_DIR}/build/CMakeLists.txt" )
+
 # include header directory.
-INCLUDE_DIRECTORIES( ${HAPI_SOURCE_DIR}/../include ${HAPI_SOURCE_DIR}/../../H3DUtil/include )
+INCLUDE_DIRECTORIES( ${HAPI_SOURCE_DIR}/../include ${H3DUTIL_SOURCE_DIR}/include )
 
 # Add a cache variable GENERATE_UNITY_BUILD to have the choice of selecting
 # a unity build project. Default is NO.
@@ -50,7 +59,7 @@ IF( NOT GENERATE_CPACK_PROJECT OR WIN32 )
   IF( SPECIAL_BINARY_DIR )
     SET( BINARY_DIR_FOR_H3DUTIL ${HAPI_SOURCE_DIR}/../../H3DUtil/build )
   ENDIF( SPECIAL_BINARY_DIR )
-  ADD_SUBDIRECTORY( ${HAPI_SOURCE_DIR}/../../H3DUtil/build
+  ADD_SUBDIRECTORY( ${H3DUTIL_SOURCE_DIR}/build
                     ${BINARY_DIR_FOR_H3DUTIL} )
 ENDIF( NOT GENERATE_CPACK_PROJECT OR WIN32 )
 
@@ -219,7 +228,7 @@ IF( GENERATE_CPACK_PROJECT )
 
     SET(CPACK_INSTALLED_DIRECTORIES ${CPACK_INSTALLED_DIRECTORIES}
                                     "${HAPI_SOURCE_DIR}/../../HAPI;HAPI"
-                                    "${HAPI_SOURCE_DIR}/../../H3DUtil;H3DUtil"
+                                    "${H3DUTIL_SOURCE_DIR};H3DUtil"
                                     "${HAPI_SOURCE_DIR}/../../doc2;doc"
                                     "${HAPI_SOURCE_DIR}/../../bin;bin"
                                     "${HAPI_SOURCE_DIR}/../../lib;lib" )
@@ -276,7 +285,7 @@ IF( GENERATE_CPACK_PROJECT )
                                     "~$" )
     SET(CPACK_SOURCE_IGNORE_FILES ${HAPI_CPACK_IGNORE_PATTERNS} )
     SET(CPACK_SOURCE_INSTALLED_DIRECTORIES "${HAPI_SOURCE_DIR}/../../HAPI;HAPI"
-                                           "${HAPI_SOURCE_DIR}/../../H3DUtil;H3DUtil" )
+                                           "${H3DUTIL_SOURCE_DIR};H3DUtil" )
   ENDIF(WIN32 AND NOT UNIX)
 ENDIF( GENERATE_CPACK_PROJECT )
 
