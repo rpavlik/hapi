@@ -1,89 +1,102 @@
-IF(WIN32)
-  cmake_minimum_required(VERSION 2.6.0)
-ENDIF(WIN32)
+cmake_minimum_required(VERSION 2.6.0)
 
 # The name of our project is "FeedbackBufferCollector".  CMakeLists files in this project can
 # refer to the root source directory of the project as ${FeedbackBufferCollector_SOURCE_DIR} and
 # to the root binary directory of the project as ${FeedbackBufferCollector_BINARY_DIR}.
-project (FeedbackBufferCollector)
+project(FeedbackBufferCollector)
 
 # Create a library called "FeedbackBufferCollector" which includes the source files.
 # The extension is already found.  Any number of sources could be listed here.
 
-SET( FeedbackBufferCollector_SRCS "${FeedbackBufferCollector_SOURCE_DIR}/../FeedbackBufferCollectorExample.cpp" )
+set(FeedbackBufferCollector_SRCS
+	"${FeedbackBufferCollector_SOURCE_DIR}/../FeedbackBufferCollectorExample.cpp")
 
-INCLUDE_DIRECTORIES( ${FeedbackBufferCollector_SOURCE_DIR}/.. )
+include_directories(${FeedbackBufferCollector_SOURCE_DIR}/..)
 
-SET(requiredLibs)
+set(requiredLibs)
 
-SET(CMAKE_MODULE_PATH ${FeedbackBufferCollector_SOURCE_DIR}/../../../build/modules )
-IF( COMMAND cmake_policy )
-  if( POLICY CMP0011 )
-    cmake_policy( SET CMP0011 NEW )
-  endif( POLICY CMP0011 )
-ENDIF( COMMAND cmake_policy )
-INCLUDE( StripAndAddLibraryDirectories )
+set(CMAKE_MODULE_PATH
+	${FeedbackBufferCollector_SOURCE_DIR}/../../../build/modules)
+if(COMMAND cmake_policy)
+	if(POLICY CMP0011)
+		cmake_policy(SET CMP0011 NEW)
+	endif()
+endif()
+include(StripAndAddLibraryDirectories)
 
 #H3DUtil
-FIND_PACKAGE(H3DUtil REQUIRED)
+find_package(H3DUtil REQUIRED)
 
-IF(H3DUTIL_FOUND)
-  INCLUDE_DIRECTORIES( ${H3DUTIL_INCLUDE_DIR} ) 
-  SET(requiredLibs ${requiredLibs} ${H3DUTIL_LIBRARIES} )
-ENDIF(H3DUTIL_FOUND)
+if(H3DUTIL_FOUND)
+	include_directories(${H3DUTIL_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${H3DUTIL_LIBRARIES})
+endif()
 
 #HAPI
-FIND_PACKAGE(HAPI REQUIRED)
+find_package(HAPI REQUIRED)
 
-IF(HAPI_FOUND)
-  INCLUDE_DIRECTORIES( ${HAPI_INCLUDE_DIR} ) 
-  SET(requiredLibs ${requiredLibs} ${HAPI_LIBRARIES} )
-ENDIF(HAPI_FOUND)
+if(HAPI_FOUND)
+	include_directories(${HAPI_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${HAPI_LIBRARIES})
+endif()
 
-FIND_PACKAGE(PTHREAD REQUIRED)
-IF(PTHREAD_FOUND AND WIN32)
-  INCLUDE_DIRECTORIES( ${PTHREAD_INCLUDE_DIR} ) 
-  SET(requiredLibs ${requiredLibs} ${PTHREAD_LIBRARIES} )
-ENDIF(PTHREAD_FOUND AND WIN32)
+find_package(PTHREAD REQUIRED)
+if(PTHREAD_FOUND AND WIN32)
+	include_directories(${PTHREAD_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${PTHREAD_LIBRARIES})
+endif()
 
-FIND_PACKAGE(OpenGL REQUIRED)
-IF(OPENGL_FOUND)
-  SET(HAVE_OPENGL 1)
-  INCLUDE_DIRECTORIES( ${OPENGL_INCLUDE_DIR} )
-  SET(requiredLibs ${requiredLibs} ${OPENGL_LIBRARIES} )
-ENDIF(OPENGL_FOUND)
+find_package(OpenGL REQUIRED)
+if(OPENGL_FOUND)
+	set(HAVE_OPENGL 1)
+	include_directories(${OPENGL_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${OPENGL_LIBRARIES})
+endif()
 
-IF(WIN32)
-  FIND_PACKAGE(GLUTWin REQUIRED)
-  IF(GLUT_FOUND)
-    INCLUDE_DIRECTORIES( ${GLUT_INCLUDE_DIR} )
-    STRIP_AND_ADD_LIBRARY_DIRECTORIES( ${GLUT_LIBRARIES} )
-  ENDIF(GLUT_FOUND)
-ENDIF(WIN32)
+if(WIN32)
+	find_package(GLUTWin REQUIRED)
+	if(GLUT_FOUND)
+		include_directories(${GLUT_INCLUDE_DIR})
+		strip_and_add_library_directories(${GLUT_LIBRARIES})
+	endif()
+endif()
 
-IF(GLUT_FOUND)
-ELSE(GLUT_FOUND)
-  FIND_PACKAGE(GLUT REQUIRED)
-  IF(GLUT_FOUND)
-    INCLUDE_DIRECTORIES( ${GLUT_INCLUDE_DIR} ) 
-    SET(requiredLibs ${requiredLibs} ${GLUT_LIBRARIES} )
-  ENDIF(GLUT_FOUND)
-ENDIF(GLUT_FOUND)
+if(GLUT_FOUND)
+else()
+	find_package(GLUT REQUIRED)
+	if(GLUT_FOUND)
+		include_directories(${GLUT_INCLUDE_DIR})
+		set(requiredLibs ${requiredLibs} ${GLUT_LIBRARIES})
+	endif()
+endif()
 
-ADD_EXECUTABLE(FeedbackBufferCollector ${FeedbackBufferCollector_SRCS})
+add_executable(FeedbackBufferCollector ${FeedbackBufferCollector_SRCS})
 
 # make the name of debug libraries end in _d.
-SET_TARGET_PROPERTIES( FeedbackBufferCollector PROPERTIES DEBUG_POSTFIX "_d" )
+set_target_properties(FeedbackBufferCollector
+	PROPERTIES
+	DEBUG_POSTFIX
+	"_d")
 
-TARGET_LINK_LIBRARIES( FeedbackBufferCollector ${requiredLibs} )
+target_link_libraries(FeedbackBufferCollector ${requiredLibs})
 
 # set the install directory to the H3D directory on Windows
-IF(WIN32) 
-  IF( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
-    SET( CMAKE_INSTALL_PREFIX ${FeedbackBufferCollector_SOURCE_DIR}/../.. CACHE PATH "Install path prefix, prepended onto install directories." FORCE )
-  ENDIF( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
-ENDIF(WIN32)
+if(WIN32)
+	if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+		set(CMAKE_INSTALL_PREFIX
+			${FeedbackBufferCollector_SOURCE_DIR}/../..
+			CACHE
+			PATH
+			"Install path prefix, prepended onto install directories."
+			FORCE)
+	endif()
+endif()
 
-INSTALL( TARGETS FeedbackBufferCollector
-	 LIBRARY DESTINATION lib
-	 RUNTIME DESTINATION bin )
+install(TARGETS
+	FeedbackBufferCollector
+	LIBRARY
+	DESTINATION
+	lib
+	RUNTIME
+	DESTINATION
+	bin)

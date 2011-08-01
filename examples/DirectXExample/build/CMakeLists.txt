@@ -1,63 +1,72 @@
-IF(WIN32)
-  cmake_minimum_required(VERSION 2.6.0)
-ENDIF(WIN32)
-if( COMMAND cmake_policy )
-  if( POLICY CMP0003 )
-    cmake_policy( SET CMP0003 NEW )
-  endif( POLICY CMP0003 )
-endif( COMMAND cmake_policy )
+cmake_minimum_required(VERSION 2.6.0)
+if(COMMAND cmake_policy)
+	if(POLICY CMP0003)
+		cmake_policy(SET CMP0003 NEW)
+	endif()
+endif()
 # The name of our project is "DirectXExample".  CMakeLists files in this project can
 # refer to the root source directory of the project as ${DirectXExample_SOURCE_DIR} and
 # to the root binary directory of the project as ${DirectXExample_BINARY_DIR}.
-project (DirectXExample)
+project(DirectXExample)
 
 # Create a library called "DirectXExample" which includes the source files.
 # The extension is already found.  Any number of sources could be listed here.
 
-SET( DirectXExample_SRCS "${DirectXExample_SOURCE_DIR}/../src/main.cpp" )
+set(DirectXExample_SRCS "${DirectXExample_SOURCE_DIR}/../src/main.cpp")
 
-INCLUDE_DIRECTORIES( ${DirectXExample_SOURCE_DIR}/../src )
+include_directories(${DirectXExample_SOURCE_DIR}/../src)
 
-SET(requiredLibs)
+set(requiredLibs)
 
-SET(CMAKE_MODULE_PATH ${DirectXExample_SOURCE_DIR}/../../../build/modules )
+set(CMAKE_MODULE_PATH
+	${DirectXExample_SOURCE_DIR}/../../../build/modules)
 
 #H3DUtil
-FIND_PACKAGE(H3DUtil REQUIRED)
+find_package(H3DUtil REQUIRED)
 
-IF(H3DUTIL_FOUND)
-  INCLUDE_DIRECTORIES( ${H3DUTIL_INCLUDE_DIR} ) 
-  SET(requiredLibs ${requiredLibs} ${H3DUTIL_LIBRARIES} )
-ENDIF(H3DUTIL_FOUND)
+if(H3DUTIL_FOUND)
+	include_directories(${H3DUTIL_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${H3DUTIL_LIBRARIES})
+endif()
 
 #HAPI
-FIND_PACKAGE(HAPI REQUIRED)
+find_package(HAPI REQUIRED)
 
-IF(HAPI_FOUND)
-  INCLUDE_DIRECTORIES( ${HAPI_INCLUDE_DIR} ) 
-  SET(requiredLibs ${requiredLibs} ${HAPI_LIBRARIES} )
-ENDIF(HAPI_FOUND)
+if(HAPI_FOUND)
+	include_directories(${HAPI_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${HAPI_LIBRARIES})
+endif()
 
-FIND_PACKAGE( DirectX REQUIRED )
-IF( DirectX_FOUND )
-  INCLUDE_DIRECTORIES( ${DirectX_INCLUDE_DIR} )
-  SET( requiredLibs ${requiredLibs} ${DirectX_LIBRARIES} )
-ENDIF( DirectX_FOUND )
+find_package(DirectX REQUIRED)
+if(DirectX_FOUND)
+	include_directories(${DirectX_INCLUDE_DIR})
+	set(requiredLibs ${requiredLibs} ${DirectX_LIBRARIES})
+endif()
 
-ADD_EXECUTABLE(DirectXExample WIN32 ${DirectXExample_SRCS})
+add_executable(DirectXExample WIN32 ${DirectXExample_SRCS})
 
 # make the name of debug libraries end in _d.
-SET_TARGET_PROPERTIES( DirectXExample PROPERTIES DEBUG_POSTFIX "_d" )
+set_target_properties(DirectXExample PROPERTIES DEBUG_POSTFIX "_d")
 
-TARGET_LINK_LIBRARIES( DirectXExample ${requiredLibs} )
+target_link_libraries(DirectXExample ${requiredLibs})
 
 # set the install directory to the H3D directory on Windows
-IF(WIN32) 
-  IF( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
-    SET( CMAKE_INSTALL_PREFIX ${DirectXExample_SOURCE_DIR}/../.. CACHE PATH "Install path prefix, prepended onto install directories." FORCE )
-  ENDIF( CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT )
-ENDIF(WIN32)
+if(WIN32)
+	if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+		set(CMAKE_INSTALL_PREFIX
+			${DirectXExample_SOURCE_DIR}/../..
+			CACHE
+			PATH
+			"Install path prefix, prepended onto install directories."
+			FORCE)
+	endif()
+endif()
 
-INSTALL( TARGETS DirectXExample
-	 LIBRARY DESTINATION lib
-	 RUNTIME DESTINATION bin )
+install(TARGETS
+	DirectXExample
+	LIBRARY
+	DESTINATION
+	lib
+	RUNTIME
+	DESTINATION
+	bin)

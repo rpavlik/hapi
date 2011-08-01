@@ -5,159 +5,227 @@
 #  wxWidgets_LIBRARIES    - List of libraries when using WxWidgets.
 #  wxWidgets_FOUND        - True if WxWidgets found.
 
-GET_FILENAME_COMPONENT(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH )
+get_filename_component(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH)
 
-IF( CMAKE_CL_64 )
-  SET( LIB "lib64" )
-ELSE( CMAKE_CL_64 )
-  SET( LIB "lib32" )
-ENDIF( CMAKE_CL_64 )
+if(CMAKE_CL_64)
+	set(LIB "lib64")
+else()
+	set(LIB "lib32")
+endif()
 
 
 # Look for the header file.
-FIND_PATH(wxWidgets_INCLUDE_DIR NAMES wx/wx.h 
-                                PATHS $ENV{H3D_EXTERNAL_ROOT}/include
-                                      $ENV{H3D_ROOT}/../External/include
-                                      ../../External/include
-                                      ${module_file_path}/../../../External/include
-                                DOC "Path in which the file wx/wx.h is located." )
-MARK_AS_ADVANCED(wxWidgets_INCLUDE_DIR)
+find_path(wxWidgets_INCLUDE_DIR
+	NAMES
+	wx/wx.h
+	PATHS
+	$ENV{H3D_EXTERNAL_ROOT}/include
+	$ENV{H3D_ROOT}/../External/include
+	../../External/include
+	${module_file_path}/../../../External/include
+	DOC
+	"Path in which the file wx/wx.h is located.")
+mark_as_advanced(wxWidgets_INCLUDE_DIR)
 
 # Look for the library.
-IF( MSVC70 OR MSVC71 )
-  FIND_LIBRARY(wxWidgets_core_LIBRARY NAMES wxmsw28_core
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB}
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx core library." )
+if(MSVC70 OR MSVC71)
+	find_library(wxWidgets_core_LIBRARY
+		NAMES
+		wxmsw28_core
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx core library.")
 
-  FIND_LIBRARY(wxWidgets_richtext_LIBRARY NAMES wxmsw28_richtext
-                                          PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                                $ENV{H3D_ROOT}/../External/${LIB}
-                                                ../../External/${LIB}
-                                                ${module_file_path}/../../../External/${LIB}
-                                          DOC "Path to wx richtext library." )
+	find_library(wxWidgets_richtext_LIBRARY
+		NAMES
+		wxmsw28_richtext
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx richtext library.")
 
-  FIND_LIBRARY(wxWidgets_html_LIBRARY NAMES wxmsw28_html   
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB}
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx html library." )
+	find_library(wxWidgets_html_LIBRARY
+		NAMES
+		wxmsw28_html
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx html library.")
 
-  FIND_LIBRARY(wxWidgets_base_LIBRARY NAMES wxbase28   
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB}
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx base library." )
-  IF(WXWINDOWS_USE_GL)
-    FIND_LIBRARY(wxWidgets_gl_LIBRARY NAMES wxmsw28_gl
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB}
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx gl library." )
+	find_library(wxWidgets_base_LIBRARY
+		NAMES
+		wxbase28
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx base library.")
+	if(WXWINDOWS_USE_GL)
+		find_library(wxWidgets_gl_LIBRARY
+			NAMES
+			wxmsw28_gl
+			PATHS
+			$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+			$ENV{H3D_ROOT}/../External/${LIB}
+			../../External/${LIB}
+			${module_file_path}/../../../External/${LIB}
+			DOC
+			"Path to wx gl library.")
 
-    FIND_LIBRARY(wxWidgets_adv_LIBRARY NAMES wxmsw28_adv
-                                       PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                             $ENV{H3D_ROOT}/../External/${LIB}
-                                             ../../External/${LIB}
-                                             ${module_file_path}/../../../External/${LIB}
-                                       DOC "Path to wx adv library." )
-  ENDIF(WXWINDOWS_USE_GL)
-ELSE( MSVC70 OR MSVC71 )
-  FIND_LIBRARY(wxWidgets_core_LIBRARY NAMES wxmsw28_core
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB} 
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx core library." )
+		find_library(wxWidgets_adv_LIBRARY
+			NAMES
+			wxmsw28_adv
+			PATHS
+			$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+			$ENV{H3D_ROOT}/../External/${LIB}
+			../../External/${LIB}
+			${module_file_path}/../../../External/${LIB}
+			DOC
+			"Path to wx adv library.")
+	endif()
+else()
+	find_library(wxWidgets_core_LIBRARY
+		NAMES
+		wxmsw28_core
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx core library.")
 
- FIND_LIBRARY(wxWidgets_richtext_LIBRARY NAMES wxmsw28_richtext   
-                                         PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                               $ENV{H3D_ROOT}/../External/${LIB}
-                                               ../../External/${LIB} 
-                                               ${module_file_path}/../../../External/${LIB}
-                                         DOC "Path to wx richtext library." )
+	find_library(wxWidgets_richtext_LIBRARY
+		NAMES
+		wxmsw28_richtext
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx richtext library.")
 
- FIND_LIBRARY(wxWidgets_html_LIBRARY NAMES wxmsw28_html   
-                                     PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                           $ENV{H3D_ROOT}/../External/${LIB}
-                                           ../../External/${LIB} 
-                                           ${module_file_path}/../../../External/${LIB}
-                                     DOC "Path to wx html library." )
+	find_library(wxWidgets_html_LIBRARY
+		NAMES
+		wxmsw28_html
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx html library.")
 
-  FIND_LIBRARY(wxWidgets_base_LIBRARY NAMES wxbase28
-                                       PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                             $ENV{H3D_ROOT}/../External/${LIB}
-                                             ../../External/${LIB} 
-                                             ${module_file_path}/../../../External/${LIB}
-                                       DOC "Path to wx base library." )
-  IF(WXWINDOWS_USE_GL)
-    FIND_LIBRARY(wxWidgets_gl_LIBRARY NAMES wxmsw28_gl
-                                      PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                            $ENV{H3D_ROOT}/../External/${LIB}
-                                            ../../External/${LIB} 
-                                            ${module_file_path}/../../../External/${LIB}
-                                      DOC "Path to wx gl library." )
+	find_library(wxWidgets_base_LIBRARY
+		NAMES
+		wxbase28
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to wx base library.")
+	if(WXWINDOWS_USE_GL)
+		find_library(wxWidgets_gl_LIBRARY
+			NAMES
+			wxmsw28_gl
+			PATHS
+			$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+			$ENV{H3D_ROOT}/../External/${LIB}
+			../../External/${LIB}
+			${module_file_path}/../../../External/${LIB}
+			DOC
+			"Path to wx gl library.")
 
-    FIND_LIBRARY(wxWidgets_adv_LIBRARY NAMES wxmsw28_adv
-                                       PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                             $ENV{H3D_ROOT}/../External/${LIB}
-                                             ../../External/${LIB} 
-                                             ${module_file_path}/../../../External/${LIB}
-                                       DOC "Path to wx adv library." )
-  ENDIF(WXWINDOWS_USE_GL)
-ENDIF( MSVC70 OR MSVC71 )
-MARK_AS_ADVANCED(wxWidgets_base_LIBRARY)
-MARK_AS_ADVANCED(wxWidgets_core_LIBRARY)
-MARK_AS_ADVANCED(wxWidgets_html_LIBRARY)
-MARK_AS_ADVANCED(wxWidgets_richtext_LIBRARY)
-IF(WXWINDOWS_USE_GL)
-  MARK_AS_ADVANCED(wxWidgets_gl_LIBRARY)
-  MARK_AS_ADVANCED(wxWidgets_adv_LIBRARY)
-ENDIF(WXWINDOWS_USE_GL)
+		find_library(wxWidgets_adv_LIBRARY
+			NAMES
+			wxmsw28_adv
+			PATHS
+			$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+			$ENV{H3D_ROOT}/../External/${LIB}
+			../../External/${LIB}
+			${module_file_path}/../../../External/${LIB}
+			DOC
+			"Path to wx adv library.")
+	endif()
+endif()
+mark_as_advanced(wxWidgets_base_LIBRARY)
+mark_as_advanced(wxWidgets_core_LIBRARY)
+mark_as_advanced(wxWidgets_html_LIBRARY)
+mark_as_advanced(wxWidgets_richtext_LIBRARY)
+if(WXWINDOWS_USE_GL)
+	mark_as_advanced(wxWidgets_gl_LIBRARY)
+	mark_as_advanced(wxWidgets_adv_LIBRARY)
+endif()
 
 # Copy the results to the output variables.
-IF(wxWidgets_INCLUDE_DIR AND wxWidgets_core_LIBRARY AND wxWidgets_base_LIBRARY)
-  IF( WXWINDOWS_USE_GL )
-    IF( wxWidgets_gl_LIBRARY AND wxWidgets_adv_LIBRARY )
-      SET(wxWidgets_FOUND 1)
-      SET( wxWidgets_LIBRARIES ${wxWidgets_core_LIBRARY}
-           ${wxWidgets_richtext_LIBRARY} ${wxWidgets_html_LIBRARY} 
-           ${wxWidgets_base_LIBRARY} ${wxWidgets_gl_LIBRARY} ${wxWidgets_adv_LIBRARY} comctl32 Rpcrt4)
-      SET(wxWidgets_INCLUDE_DIR ${wxWidgets_INCLUDE_DIR})
-    ELSE( wxWidgets_gl_LIBRARY AND wxWidgets_adv_LIBRARY )
-      SET(wxWidgets_FOUND 0)
-      SET(wxWidgets_LIBRARIES)
-      SET(wxWidgets_INCLUDE_DIR)
-    ENDIF( wxWidgets_gl_LIBRARY AND wxWidgets_adv_LIBRARY )
-  ELSE( WXWINDOWS_USE_GL )
-    SET(wxWidgets_FOUND 1)
-    SET( wxWidgets_LIBRARIES ${wxWidgets_core_LIBRARY}
-         ${wxWidgets_richtext_LIBRARY} ${wxWidgets_html_LIBRARY} 
-         ${wxWidgets_base_LIBRARY} comctl32 Rpcrt4)
-    SET(wxWidgets_INCLUDE_DIR ${wxWidgets_INCLUDE_DIR})
-  ENDIF( WXWINDOWS_USE_GL )
-ELSE(wxWidgets_INCLUDE_DIR AND wxWidgets_core_LIBRARY AND wxWidgets_base_LIBRARY)
-  SET(wxWidgets_FOUND 0)
-  SET(wxWidgets_LIBRARIES)
-  SET(wxWidgets_INCLUDE_DIR)
-ENDIF(wxWidgets_INCLUDE_DIR  AND wxWidgets_core_LIBRARY AND wxWidgets_base_LIBRARY)
+if(wxWidgets_INCLUDE_DIR
+	AND
+	wxWidgets_core_LIBRARY
+	AND
+	wxWidgets_base_LIBRARY)
+	if(WXWINDOWS_USE_GL)
+		if(wxWidgets_gl_LIBRARY AND wxWidgets_adv_LIBRARY)
+			set(wxWidgets_FOUND 1)
+			set(wxWidgets_LIBRARIES
+				${wxWidgets_core_LIBRARY}
+				${wxWidgets_richtext_LIBRARY}
+				${wxWidgets_html_LIBRARY}
+				${wxWidgets_base_LIBRARY}
+				${wxWidgets_gl_LIBRARY}
+				${wxWidgets_adv_LIBRARY}
+				comctl32
+				Rpcrt4)
+			set(wxWidgets_INCLUDE_DIR ${wxWidgets_INCLUDE_DIR})
+		else()
+			set(wxWidgets_FOUND 0)
+			set(wxWidgets_LIBRARIES)
+			set(wxWidgets_INCLUDE_DIR)
+		endif()
+	else()
+		set(wxWidgets_FOUND 1)
+		set(wxWidgets_LIBRARIES
+			${wxWidgets_core_LIBRARY}
+			${wxWidgets_richtext_LIBRARY}
+			${wxWidgets_html_LIBRARY}
+			${wxWidgets_base_LIBRARY}
+			comctl32
+			Rpcrt4)
+		set(wxWidgets_INCLUDE_DIR ${wxWidgets_INCLUDE_DIR})
+	endif()
+else()
+	set(wxWidgets_FOUND 0)
+	set(wxWidgets_LIBRARIES)
+	set(wxWidgets_INCLUDE_DIR)
+endif()
 
 # Report the results.
-IF(NOT wxWidgets_FOUND)
-  SET(wxWidgets_DIR_MESSAGE
-    "WxWidgets was not found. Make sure wxWidgets_core_LIBRARY, wxWidgets_base_LIBRARY")
-  IF( WXWINDOWS_USE_GL )
-    SET( wxWidgets_DIR_MESSAGE "${wxWidgets_DIR_MESSAGE}, wxWidgets_gl_LIBRARY, wxWidgets_adv_LIBRARY")
-  ENDIF( WXWINDOWS_USE_GL )
-  SET( wxWidgets_DIR_MESSAGE "${wxWidgets_DIR_MESSAGE} and wxWidgets_INCLUDE_DIR are set.")
-  IF(wxWidgets_FIND_REQUIRED)
-      MESSAGE(FATAL_ERROR "${wxWidgets_DIR_MESSAGE}")
-  ELSEIF(NOT wxWidgets_FIND_QUIETLY)
-    MESSAGE(STATUS "${wxWidgets_DIR_MESSAGE}")
-  ENDIF(wxWidgets_FIND_REQUIRED)
-ENDIF(NOT wxWidgets_FOUND)
+if(NOT wxWidgets_FOUND)
+	set(wxWidgets_DIR_MESSAGE
+		"WxWidgets was not found. Make sure wxWidgets_core_LIBRARY, wxWidgets_base_LIBRARY")
+	if(WXWINDOWS_USE_GL)
+		set(wxWidgets_DIR_MESSAGE
+			"${wxWidgets_DIR_MESSAGE}, wxWidgets_gl_LIBRARY, wxWidgets_adv_LIBRARY")
+	endif()
+	set(wxWidgets_DIR_MESSAGE
+		"${wxWidgets_DIR_MESSAGE} and wxWidgets_INCLUDE_DIR are set.")
+	if(wxWidgets_FIND_REQUIRED)
+		message(FATAL_ERROR "${wxWidgets_DIR_MESSAGE}")
+	elseif(NOT wxWidgets_FIND_QUIETLY)
+		message(STATUS "${wxWidgets_DIR_MESSAGE}")
+	endif()
+endif()

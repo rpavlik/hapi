@@ -5,64 +5,76 @@
 #  ENTACTAPI_LIBRARIES    - List of libraries when using ENTACTAPI.
 #  ENTACTAPI_FOUND        - True if ENTACTAPI found.
 
-GET_FILENAME_COMPONENT(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH )
+get_filename_component(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH)
 
-IF( CMAKE_CL_64 )
-  SET( LIB "lib64" )
-ELSE( CMAKE_CL_64 )
-  SET( LIB "lib32" )
-ENDIF( CMAKE_CL_64 )
+if(CMAKE_CL_64)
+	set(LIB "lib64")
+else()
+	set(LIB "lib32")
+endif()
 
 # Look for the header file.
-FIND_PATH(ENTACTAPI_INCLUDE_DIR NAMES EntactAPI.h 
-                          PATHS $ENV{H3D_EXTERNAL_ROOT}/include
-                                $ENV{H3D_ROOT}/../External/include
-                                ../../External/include
-                                ${module_file_path}/../../../External/include
-                          DOC "Path in which the file EntactAPI.h is located." )
-MARK_AS_ADVANCED(ENTACTAPI_INCLUDE_DIR)
+find_path(ENTACTAPI_INCLUDE_DIR
+	NAMES
+	EntactAPI.h
+	PATHS
+	$ENV{H3D_EXTERNAL_ROOT}/include
+	$ENV{H3D_ROOT}/../External/include
+	../../External/include
+	${module_file_path}/../../../External/include
+	DOC
+	"Path in which the file EntactAPI.h is located.")
+mark_as_advanced(ENTACTAPI_INCLUDE_DIR)
 
 
 # Look for the library.
-IF(WIN32)
-  FIND_LIBRARY(ENTACTAPI_LIBRARY NAMES EntactAPI 
-                           PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                 $ENV{H3D_ROOT}/../External/${LIB}
-                                 ../../External/${LIB}
-                                 ${module_file_path}/../../../External/${LIB}
-                           DOC "Path to EntactAPI.lib library." )
-ELSE(WIN32)
-  FIND_LIBRARY(ENTACTAPI_LIBRARY NAMES entact
-                           PATHS $ENV{H3D_EXTERNAL_ROOT}/${LIB}
-                                 $ENV{H3D_ROOT}/../External/${LIB}
-                                 ../../External/${LIB}
-                                 ${module_file_path}/../../../External/${LIB}
-                           DOC "Path to EntactAPI library." )
+if(WIN32)
+	find_library(ENTACTAPI_LIBRARY
+		NAMES
+		EntactAPI
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to EntactAPI.lib library.")
+else()
+	find_library(ENTACTAPI_LIBRARY
+		NAMES
+		entact
+		PATHS
+		$ENV{H3D_EXTERNAL_ROOT}/${LIB}
+		$ENV{H3D_ROOT}/../External/${LIB}
+		../../External/${LIB}
+		${module_file_path}/../../../External/${LIB}
+		DOC
+		"Path to EntactAPI library.")
 
-ENDIF(WIN32)
-MARK_AS_ADVANCED(ENTACTAPI_LIBRARY)
+endif()
+mark_as_advanced(ENTACTAPI_LIBRARY)
 
 
 # Copy the results to the output variables.
-IF(ENTACTAPI_INCLUDE_DIR AND ENTACTAPI_LIBRARY)
-  SET(ENTACTAPI_FOUND 1)
-  SET(ENTACTAPI_LIBRARIES ${ENTACTAPI_LIBRARY})
-  SET(ENTACTAPI_INCLUDE_DIR ${ENTACTAPI_INCLUDE_DIR})
-ELSE(ENTACTAPI_INCLUDE_DIR AND ENTACTAPI_LIBRARY)
-  SET(ENTACTAPI_FOUND 0)
-  SET(ENTACTAPI_LIBRARIES)
-  SET(ENTACTAPI_INCLUDE_DIR)
-ENDIF(ENTACTAPI_INCLUDE_DIR  AND ENTACTAPI_LIBRARY)
+if(ENTACTAPI_INCLUDE_DIR AND ENTACTAPI_LIBRARY)
+	set(ENTACTAPI_FOUND 1)
+	set(ENTACTAPI_LIBRARIES ${ENTACTAPI_LIBRARY})
+	set(ENTACTAPI_INCLUDE_DIR ${ENTACTAPI_INCLUDE_DIR})
+else()
+	set(ENTACTAPI_FOUND 0)
+	set(ENTACTAPI_LIBRARIES)
+	set(ENTACTAPI_INCLUDE_DIR)
+endif()
 
 # Report the results.
-IF(NOT ENTACTAPI_FOUND)
-  SET( ENTACTAPI_DIR_MESSAGE
-       "Entact API was not found. Make sure to set ENTACTAPI_LIBRARY" )
-  SET( ENTACTAPI_DIR_MESSAGE
-       "${ENTACTAPI_DIR_MESSAGE} and ENTACTAPI_INCLUDE_DIR. If you do not have EntactAPI library you will not be able to use the Entact haptics device.")
-  IF(ENTACTAPI_FIND_REQUIRED)
-    MESSAGE(FATAL_ERROR "${ENTACTAPI_DIR_MESSAGE}")
-  ELSEIF(NOT ENTACTAPI_FIND_QUIETLY)
-    MESSAGE(STATUS "${ENTACTAPI_DIR_MESSAGE}")
-  ENDIF(ENTACTAPI_FIND_REQUIRED)
-ENDIF(NOT ENTACTAPI_FOUND)
+if(NOT ENTACTAPI_FOUND)
+	set(ENTACTAPI_DIR_MESSAGE
+		"Entact API was not found. Make sure to set ENTACTAPI_LIBRARY")
+	set(ENTACTAPI_DIR_MESSAGE
+		"${ENTACTAPI_DIR_MESSAGE} and ENTACTAPI_INCLUDE_DIR. If you do not have EntactAPI library you will not be able to use the Entact haptics device.")
+	if(ENTACTAPI_FIND_REQUIRED)
+		message(FATAL_ERROR "${ENTACTAPI_DIR_MESSAGE}")
+	elseif(NOT ENTACTAPI_FIND_QUIETLY)
+		message(STATUS "${ENTACTAPI_DIR_MESSAGE}")
+	endif()
+endif()

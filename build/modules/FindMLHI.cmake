@@ -5,38 +5,46 @@
 #  MLHI_LIBRARIES    - List of libraries when using MLHI
 #  MLHI_FOUND        - True if MLHI found
 
-GET_FILENAME_COMPONENT(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH )
+get_filename_component(module_file_path ${CMAKE_CURRENT_LIST_FILE} PATH)
 
 # Look for the header file.
-FIND_PATH(MLHI_INCLUDE_DIR NAMES MLHI/ml_api.h
-                                PATHS /usr/local/include/
-                                DOC "Path in which the file MLHI/ml_api.h is located." )
-MARK_AS_ADVANCED(MLHI_INCLUDE_DIR)
+find_path(MLHI_INCLUDE_DIR
+	NAMES
+	MLHI/ml_api.h
+	PATHS
+	/usr/local/include/
+	DOC
+	"Path in which the file MLHI/ml_api.h is located.")
+mark_as_advanced(MLHI_INCLUDE_DIR)
 
 # Look for the library.
-FIND_LIBRARY(MLHI_LIBRARY NAMES mlhi_api_linux
-                        PATHS /usr/local/lib/
-                        DOC "Path to MLHI library." )
-MARK_AS_ADVANCED(MLHI_LIBRARY)
+find_library(MLHI_LIBRARY
+	NAMES
+	mlhi_api_linux
+	PATHS
+	/usr/local/lib/
+	DOC
+	"Path to MLHI library.")
+mark_as_advanced(MLHI_LIBRARY)
 
 # Copy the results to the output variables.
-IF(MLHI_INCLUDE_DIR AND MLHI_LIBRARY)
-  SET(MLHI_FOUND 1)
-  SET(MLHI_LIBRARIES ${MLHI_LIBRARY} )
-  SET(MLHI_INCLUDE_DIR ${MLHI_INCLUDE_DIR})
-ELSE(MLHI_INCLUDE_DIR AND MLHI_LIBRARY)
-  SET(MLHI_FOUND 0)
-  SET(MLHI_LIBRARIES)
-  SET(MLHI_INCLUDE_DIR)
-ENDIF(MLHI_INCLUDE_DIR  AND MLHI_LIBRARY)
+if(MLHI_INCLUDE_DIR AND MLHI_LIBRARY)
+	set(MLHI_FOUND 1)
+	set(MLHI_LIBRARIES ${MLHI_LIBRARY})
+	set(MLHI_INCLUDE_DIR ${MLHI_INCLUDE_DIR})
+else()
+	set(MLHI_FOUND 0)
+	set(MLHI_LIBRARIES)
+	set(MLHI_INCLUDE_DIR)
+endif()
 
 # Report the results.
-IF(NOT MLHI_FOUND)
-  SET(MLHI_DIR_MESSAGE
-    "The MLHI API was not found. Make sure to set MLHI_LIBRARY and MLHI_INCLUDE_DIR. If you do not have the MLHI library you will not be able to use the MLHI devices.")
-  IF(MLHI_FIND_REQUIRED)
-    MESSAGE(FATAL_ERROR "${MLHI_DIR_MESSAGE}")
-  ELSEIF(NOT MLHI_FIND_QUIETLY)
-    MESSAGE(STATUS "${MLHI_DIR_MESSAGE}")
-  ENDIF(MLHI_FIND_REQUIRED)
-ENDIF(NOT MLHI_FOUND)
+if(NOT MLHI_FOUND)
+	set(MLHI_DIR_MESSAGE
+		"The MLHI API was not found. Make sure to set MLHI_LIBRARY and MLHI_INCLUDE_DIR. If you do not have the MLHI library you will not be able to use the MLHI devices.")
+	if(MLHI_FIND_REQUIRED)
+		message(FATAL_ERROR "${MLHI_DIR_MESSAGE}")
+	elseif(NOT MLHI_FIND_QUIETLY)
+		message(STATUS "${MLHI_DIR_MESSAGE}")
+	endif()
+endif()
