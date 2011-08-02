@@ -83,25 +83,7 @@ endif()
 
 
 # include H3DUtil in the build
-if(WIN32)
-	# Should this part only be done for Windows? It is used to avoid placing everything directly in "build" catalogue if some other catalogue is chosen.
-	string(REPLACE
-		"HAPI"
-		"H3DUtil"
-		BINARY_DIR_FOR_H3DUTIL
-		${CMAKE_CURRENT_BINARY_DIR})
-	string(COMPARE
-		EQUAL
-		${BINARY_DIR_FOR_H3DUTIL}
-		${CMAKE_CURRENT_BINARY_DIR}
-		SPECIAL_BINARY_DIR)
-	if(SPECIAL_BINARY_DIR)
-		set(BINARY_DIR_FOR_H3DUTIL ${HAPI_SOURCE_DIR}/../../H3DUtil/build)
-	endif()
-	add_subdirectory(${H3DUTIL_SOURCE_DIR}/build ${BINARY_DIR_FOR_H3DUTIL})
-else()
-	add_subdirectory(${H3DUTIL_SOURCE_DIR}/build h3dutil-build)
-endif()
+add_subdirectory(${H3DUTIL_SOURCE_DIR}/build h3dutil-build)
 list(APPEND HAPI_INCLUDE_DIRS ${H3DUTIL_INCLUDE_DIRS})
 include_directories(${HAPI_INCLUDE_DIRS})
 
